@@ -1,14 +1,17 @@
-import { Controller, Get, Post, Body, Param, Patch, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Patch, Delete, UsePipes, ValidationPipe } from '@nestjs/common';
 import { UsersService } from './user.service';
 import { Users } from './user.entity';
+import { CreateUserDto } from 'src/validators/create-user.dto';
+import { UpdateUserDto } from 'src/validators/update-user.dto';
 
 @Controller('users')
 export class UserController {
   constructor(private readonly userService: UsersService) {}
 
   @Post()
-  create(@Body() user: Partial<Users>) {
-    return this.userService.create(user);
+  @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
+  create(@Body() createUserDto: CreateUserDto) {
+    return this.userService.create(createUserDto);
   }
 
   @Get()
@@ -22,8 +25,9 @@ export class UserController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: number, @Body() user: Partial<Users>) {
-    return this.userService.update(id, user);
+  @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
+  update(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto) {
+    return this.userService.update(id, updateUserDto);
   }
 
   @Delete(':id')

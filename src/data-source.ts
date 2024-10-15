@@ -1,13 +1,19 @@
-import { DataSource } from 'typeorm';
-import { Users } from './user/user.entity'; 
+const { DataSource } = require("typeorm")
 
-export const AppDataSource = new DataSource({
-  type: 'postgres',
-  host: 'localhost',
+const AppDataSource = new DataSource({
+  type: "postgres",
   port: 5432,
   username: 'postgres',
   password: 'letmein1',
   database: 'nuacem',
-  entities: [Users],
-  migrations: [__dirname + '/migrations/**/*{.ts,.js}'],
-});
+  entities: [
+    "dist/user/user.entity.js",
+  ],
+  migrations: [
+    "dist/migrations/typeorm-migrations/1728964531-create-user.js",
+  ],
+})
+
+module.exports = {
+  datasource: AppDataSource,
+}
