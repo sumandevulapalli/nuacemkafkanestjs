@@ -1,11 +1,11 @@
-import { Injectable, OnModuleInit, OnModuleDestroy } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { Kafka } from 'kafkajs';
 
 @Injectable()
 export class KafkaService {
     sendMessage(topic, message) {
         const kafka = new Kafka({
-            clientId: 'my-app',
+            clientId: 'nuacem',
             brokers: ['localhost:9092']
         })
 

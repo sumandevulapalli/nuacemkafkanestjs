@@ -1,9 +1,7 @@
-// consumer.js
-
 const { Kafka } = require('kafkajs');
 
 const kafka = new Kafka({
-  clientId: 'my-app',
+  clientId: 'nuacem',
   brokers: ['localhost:9092'],
 });
 

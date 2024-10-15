@@ -58,11 +58,10 @@ export class UsersService {
     async update(id: number, updateUserDto: UpdateUserDto): Promise<Users> {
         try {
             this.logger.log(`Updating user with id: ${id} - ${JSON.stringify(updateUserDto)}`);
-            const user = await this.findOne(id); // Ensure the user exists
+            const user = await this.findOne(id);
 
             await this.usersRepository.update(id, updateUserDto);
             
-            // Send Kafka message after successful update
             await KafkaService.prototype.sendMessage('users', { action: 'update', user: updateUserDto });
 
             return this.findOne(id);
@@ -75,11 +74,10 @@ export class UsersService {
     async remove(id: number): Promise<void> {
         try {
             this.logger.log(`Deleting user with id: ${id}`);
-            const user = await this.findOne(id); // Ensure the user exists
+            const user = await this.findOne(id);
 
             await this.usersRepository.delete(id);
 
-            // Send Kafka message after successful deletion
             await KafkaService.prototype.sendMessage('users', { action: 'delete', user });
 
         } catch (error) {
